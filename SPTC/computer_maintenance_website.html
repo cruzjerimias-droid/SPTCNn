@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechCare - Mantenimiento Profesional de Computadoras</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header y Navigation */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+        }
+
+        .section {
+            display: none;
+            min-height: calc(100vh - 80px);
+            padding: 2rem 0;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .hero {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            text-align: center;
+            color: white;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Company Data */
+        .company-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        /* Album/Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .gallery-item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .gallery-content {
+            padding: 1.5rem;
+        }
+
+        /* Blog */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .blog-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-excerpt {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            margin: 1rem 0;
+        }
+
+        /* About Us */
+        .about-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        /* Contact */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 2rem 0;
+        }
+
+        .contact-form, .contact-info {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 1rem;
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 2rem;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero {
+                padding: 2rem;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .company-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero {
+                padding: 1.5rem;
+            }
+
+            .company-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(51, 51, 51, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 3rem 2rem 1rem;
+            margin-top: 4rem;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p, .footer-section li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #667eea;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #555;
+            text-align: center;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo">SPTCN</a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showSection('inicio')">Inicio</a></li>
+                <li><a href="#" onclick="showSection('servicios')">Servicios</a></li>
+                <li><a href="#" onclick="showSection('nosotros')">Nosotros</a></li>
+                <li><a href="#" onclick="showSection('contacto')">Contacto</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- INICIO -->
+        <section id="inicio" class="section active">
+            <div class="container">
+                <div class="hero">
+                    <h1>Mantenimiento Profesional de Computadoras</h1>
+                    <p>Soluciones tecnológicas integrales para empresas y particulares. Más de 10 años de experiencia brindando servicios de calidad.</p>
+                    <a href="#" class="btn" onclick="showSection('servicios')">Ver Servicios</a>
+                </div>
+
+                <!-- Datos de la Empresa -->
+                <div class="company-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Clientes Satisfechos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Años de Experiencia</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Soporte Técnico</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Tasa de Éxito</div>
+                    </div>
+                </div>
+
+                <!-- Álbum/Galería -->
+                <div class="section-header">
+                    <h2>Nuestro Trabajo</h2>
+                    <p>Galería de algunos de nuestros proyectos y servicios realizados</p>
+                </div>
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <div class="gallery-img">🖥️ Mantenimiento Desktop</div>
+                        <div class="gallery-content">
+                            <h3>Limpieza Profunda PC</h3>
+                            <p>Limpieza interna y externa, renovación de pasta térmica y optimización del sistema.</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-img">💻 Reparación Laptop</div>
+                        <div class="gallery-content">
+                            <h3>Reparación de Portátiles</h3>
+                            <p>Cambio de pantallas, teclados, disco duro y actualización de componentes.</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-img">🔧 Instalación Software</div>
+                        <div class="gallery-content">
+                            <h3>Configuración de Sistemas</h3>
+                            <p>Instalación y configuración de sistemas operativos y software especializado.</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-img">🖨️ Reparación Impresoras</div>
+                        <div class="gallery-content">
+                            <h3>Servicios de Impresión</h3>
+                            <p>Mantenimiento y reparación de impresoras láser e inyección de tinta.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog -->
+                <div class="section-header">
+                    <h2>Blog Técnico</h2>
+                    <p>Consejos y noticias sobre mantenimiento de computadoras</p>
+                </div>
+                <div class="blog-grid">
+                    <article class="blog-card">
+                        <div class="blog-image">📱 Consejos Móviles</div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">5 Consejos para Mantener tu PC como Nueva</h3>
+                            <div class="blog-meta">Por TechCare Team • 15 Agosto 2025</div>
+                            <p class="blog-excerpt">Descubre los secretos para mantener tu computadora funcionando al máximo rendimiento con estos consejos profesionales...</p>
+                        </div>
+                    </article>
+                    <article class="blog-card">
+                        <div class="blog-image">🔒 Seguridad Digital</div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">Cómo Proteger tu Equipo de Virus y Malware</h3>
+                            <div class="blog-meta">Por TechCare Team • 10 Agosto 2025</div>
+                            <p class="blog-excerpt">Guía completa sobre las mejores prácticas de seguridad informática para proteger tus datos y equipos...</p>
+                        </div>
+                    </article>
+                    <article class="blog-card">
+                        <div class="blog-image">⚡ Optimización</div>
+                        <div class="blog-content">
+                            <h3 class="blog-title">Cuándo es Momento de Actualizar tu Hardware</h3>
+                            <div class="blog-meta">Por TechCare Team • 5 Agosto 2025</div>
+                            <p class="blog-excerpt">Señales que indican que tu computadora necesita una actualización y qué componentes priorizar...</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICIOS -->
+        <section id="servicios" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Nuestros Servicios</h2>
+                    <p>Ofrecemos soluciones completas para todas tus necesidades tecnológicas</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">🔧</div>
+                        <h3 class="service-title">Mantenimiento Preventivo</h3>
+                        <p>Limpieza profunda, actualización de drivers y optimización del sistema para prevenir problemas futuros.</p>
+                        <div class="price">$350 MXN</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🔨</div>
+                        <h3 class="service-title">Reparación de Hardware</h3>
+                        <p>Diagnóstico y reparación de componentes físicos: tarjeta madre, RAM, disco duro, fuentes de poder.</p>
+                        <div class="price">Desde $500 MXN</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">💻</div>
+                        <h3 class="service-title">Instalación de Software</h3>
+                        <p>Instalación y configuración de sistemas operativos, programas especializados y antivirus.</p>
+                        <div class="price">$250 MXN</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🔄</div>
+                        <h3 class="service-title">Formateo y Restauración</h3>
+                        <p>Formateo completo del sistema, instalación limpia y recuperación de datos importantes.</p>
+                        <div class="price">$400 MXN</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🛡️</div>
+                        <h3 class="service-title">Eliminación de Virus</h3>
+                        <p>Limpieza completa de malware, spyware y virus. Incluye configuración de seguridad.</p>
+                        <div class="price">$300 MXN</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📊</div>
+                        <h3 class="service-title">Optimización de Rendimiento</h3>
+                        <p>Análisis del sistema, limpieza de archivos temporales y configuración para máximo rendimiento.</p>
+                        <div class="price">$280 MXN</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOSOTROS -->
+        <section id="nosotros" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Acerca de Nosotros</h2>
+                    <p>Conoce nuestro equipo y trayectoria en el mundo de la tecnología</p>
+                </div>
+                <div class="about-content">
+                    <h3>Nuestra Historia</h3>
+                    <p>TechCare nació en 2015 con la visión de brindar servicios tecnológicos de alta calidad a empresas y particulares en Ciudad de México. Durante más de 10 años, hemos desarrollado una reputación sólida basada en la confianza, profesionalismo y resultados excepcionales.</p>
+                    
+                    <h3 style="margin-top: 2rem;">Nuestra Misión</h3>
+                    <p>Proporcionar soluciones tecnológicas integrales y mantenimiento especializado que permitan a nuestros clientes aprovechar al máximo sus equipos de cómputo, garantizando su funcionamiento óptimo y prolongando su vida útil.</p>
+                    
+                    <h3 style="margin-top: 2rem;">Nuestros Valores</h3>
+                    <p>• <strong>Calidad:</strong> Cada servicio se realiza con los más altos estándares<br>
+                    • <strong>Confiabilidad:</strong> Cumplimos nuestros compromisos y tiempos<br>
+                    • <strong>Transparencia:</strong> Precios claros sin costos ocultos<br>
+                    • <strong>Innovación:</strong> Nos mantenemos actualizados con la última tecnología</p>
+                </div>
+
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="team-avatar">👨‍💻</div>
+                        <h4>Carlos Mendoza</h4>
+                        <p><strong>Director Técnico</strong></p>
+                        <p>Ingeniero en Sistemas con 15 años de experiencia en mantenimiento y reparación de equipos.</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">👩‍🔧</div>
+                        <h4>Ana García</h4>
+                        <p><strong>Especialista en Hardware</strong></p>
+                        <p>Técnica certificada especializada en reparación de componentes y actualización de equipos.</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">👨‍🎓</div>
+                        <h4>Miguel Torres</h4>
+                        <p><strong>Consultor de Software</strong></p>
+                        <p>Experto en sistemas operativos y software empresarial con certificaciones internacionales.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACTO -->
+        <section id="contacto" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Contáctanos</h2>
+                    <p>¿Tienes alguna consulta? ¡Estamos aquí para ayudarte!</p>
+                </div>
+                <div class="contact-container">
+                    <div class="contact-form">
+                        <h3>Envíanos un Mensaje</h3>
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Nombre Completo</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Correo Electrónico</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Teléfono</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="service">Servicio de Interés</label>
+                                <select id="service" name="service" style="width: 100%; padding: 0.8rem; border: 2px solid #e1e5e9; border-radius: 8px;">
+                                    <option>Mantenimiento Preventivo</option>
+                                    <option>Reparación de Hardware</option>
+                                    <option>Instalación de Software</option>
+                                    <option>Eliminación de Virus</option>
+                                    <option>Consultoría</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Mensaje</label>
+                                <textarea id="message" name="message" rows="5" placeholder="Describe tu problema o consulta..."></textarea>
+                            </div>
+                            <button type="submit" class="btn">Enviar Mensaje</button>
+                        </form>
+                    </div>
+
+                    <div class="contact-info">
+                        <h3>Información de Contacto</h3>
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <strong>Dirección</strong><br>
+                                Av. Insurgentes Sur 1234<br>
+                                Col. Del Valle, Ciudad de México
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div>
+                                <strong>Teléfonos</strong><br>
+                                (55) 1234-5678<br>
+                                (55) 8765-4321
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <div>
+                                <strong>Correo Electrónico</strong><br>
+                                info@techcare.mx<br>
+                                soporte@techcare.mx
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">🕒</div>
+                            <div>
+                                <strong>Horarios de Atención</strong><br>
+                                Lun - Vie: 9:00 AM - 7:00 PM<br>
+                                Sáb: 9:00 AM - 2:00 PM<br>
+                                Dom: Emergencias únicamente
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">💬</div>
+                            <div>
+                                <strong>WhatsApp</strong><br>
+                                +52 55 9876-5432<br>
+                                <small>Respuesta inmediata</small>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                            <h4 style="color: #667eea; margin-bottom: 1rem;">🚀 Servicio a Domicilio</h4>
+                            <p>Ofrecemos servicio técnico a domicilio en toda la Ciudad de México y área metropolitana. ¡Agenda tu cita!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mapa ficticio -->
+                <div style="margin-top: 3rem;">
+                    <div style="background: rgba(255, 255, 255, 0.95); padding: 2rem; border-radius: 15px; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);">
+                        <h4 style="margin-bottom: 1rem; color: #333;">📍 Nuestra Ubicación</h4>
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); height: 300px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">
+                            🗺️ Av. Insurgentes Sur 1234, Col. Del Valle<br>
+                            Ciudad de México, CDMX 03100
+                        </div>
+                        <p style="margin-top: 1rem; color: #666;">Fácil acceso en transporte público - Metro Insurgentes Sur</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+     <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>TechCare Solutions</h3>
+                <p>Tu socio tecnológico de confianza con más de 10 años de experiencia en el sector informático.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">📘</a>
+                    <a href="#" class="social-link">📷</a>
+                    <a href="#" class="social-link">🐦</a>
+                    <a href="#" class="social-link">💼</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Servicios Principales</h3>
+                <ul>
+                    <li><a href="#">Mantenimiento Preventivo</a></li>
+                    <li><a href="#">Reparación de Hardware</a></li>
+                    <li><a href="#">Recuperación de Datos</a></li>
+                    <li><a href="#">Eliminación de Virus</a></li>
+                    <li><a href="#">Optimización de Sistema</a></li>
+                    <li><a href="#">Servicio a Domicilio</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Información</h3>
+                <ul>
+                    <li><a href="#">Sobre Nosotros</a></li>
+                    <li><a href="#">Blog Técnico</a></li>
+                    <li><a href="#">Preguntas Frecuentes</a></li>
+                    <li><a href="#">Testimonios</a></li>
+                    <li><a href="#">Garantía</a></li>
+                    <li><a href="#">Política de Privacidad</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p>📍 Av. Tecnología 123, Col. Digital<br>Ciudad de México, CP 06000</p>
+                <p>📞 +52 55 1234-5678</p>
+                <p>✉️ info@techcaresolutions.mx</p>
+                <p>🕒 Lun-Vie: 9:00-18:00<br>Sáb: 9:00-14:00</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Variables globales
+        let currentSection = 'inicio';
+
+        // Función para mostrar secciones
+        function showSection(sectionName) {
+            // Ocultar todas las secciones
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Mostrar la sección seleccionada
+            const targetSection = document.getElementById(sectionName);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                currentSection = sectionName;
+            }
+
+            // Cerrar menú móvil si está abierto
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+
+            // Scroll suave al top
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
+            // Actualizar enlaces activos
+            updateActiveNavLink(sectionName);
+        }
+
+        // Función para actualizar enlace activo en navegación
+        function updateActiveNavLink(sectionName) {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                link.classList.remove('active-link');
+                if (link.textContent.toLowerCase() === sectionName || 
+                    (sectionName === 'inicio' && link.textContent.toLowerCase() === 'inicio')) {
+                    link.classList.add('active-link');
+                }
+            });
+        }
+
+        // Función para toggle del menú hamburguesa
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Efecto parallax suave en scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero');
+            if (parallax) {
+                const speed = scrolled * 0.5;
+                parallax.style.transform = `translateY(${speed}px)`;
+            }
+        });
+
+        // Animaciones al hacer scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.stat-card, .service-card, .gallery-item, .blog-card, .team-member');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Inicializar animaciones
+        function initAnimations() {
+            const elements = document.querySelectorAll('.stat-card, .service-card, .gallery-item, .blog-card, .team-member');
+            elements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+        }
+
+        // Contador animado para estadísticas
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = counter.textContent;
+                let currentNum = 0;
+                const increment = target / 100;
+                
+                const updateCounter = () => {
+                    if (currentNum < target) {
+                        currentNum += increment;
+                        if (target.includes('+')) {
+                            counter.textContent = Math.ceil(currentNum) + '+';
+                        } else if (target.includes('%')) {
+                            counter.textContent = Math.ceil(currentNum) + '%';
+                        } else if (target.includes('/')) {
+                            counter.textContent = target; // Para "24/7"
+                        } else {
+                            counter.textContent = Math.ceil(currentNum);
+                        }
+                        setTimeout(updateCounter, 50);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                
+                // Iniciar animación cuando el elemento sea visible
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateCounter();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                
+                observer.observe(counter);
+            });
+        }
+
+        // Validación del formulario
+        function setupFormValidation() {
+            const form = document.querySelector('form');
+            
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Simulación de envío
+                const btn = form.querySelector('.btn');
+                const originalText = btn.textContent;
+                
+                btn.textContent = 'Enviando...';
+                btn.style.background = '#ccc';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    alert('¡Mensaje enviado exitosamente! Nos pondremos en contacto contigo pronto.');
+                    form.reset();
+                    
+                    btn.textContent = originalText;
+                    btn.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+                    btn.disabled = false;
+                }, 2000);
+            });
+        }
+
+        // Efectos hover mejorados
+        function setupHoverEffects() {
+            // Efecto para tarjetas de servicio
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Efecto para elementos de galería
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    item.style.transform = 'scale(1.05) rotate(1deg)';
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    item.style.transform = 'scale(1) rotate(0deg)';
+                });
+            });
+        }
+
+        // Función para cerrar menú al hacer clic fuera
+        document.addEventListener('click', (e) => {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('nav');
+            
+            if (!nav.contains(e.target)) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // Inicialización cuando carga la página
+        document.addEventListener('DOMContentLoaded', () => {
+            initAnimations();
+            animateCounters();
+            setupFormValidation();
+            setupHoverEffects();
+            
+            // Activar animaciones en scroll
+            window.addEventListener('scroll', animateOnScroll);
+            
+            // Animación inicial
+            setTimeout(() => {
+                animateOnScroll();
+            }, 500);
+        });
+
+        // Funcionalidad de smooth scrolling mejorada
+        function smoothScrollTo(target) {
+            window.scrollTo({
+                top: target.offsetTop - 80,
+                behavior: 'smooth'
+            });
+        }
+
+        // Cambio dinámico del header al hacer scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
+                                
